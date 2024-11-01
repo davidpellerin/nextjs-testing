@@ -29,10 +29,10 @@ jobs:
         run: |
           cat my-next-app/package.json
 
-      - name: Explicitly set react and react-dom versions to 18.3.1
+      - name: Explicitly set react and react-dom versions to 18.2.0
         run: |
           cd my-next-app
-          npm install react@18.3.1 react-dom@18.3.1
+          npm install react@18.2.0 react-dom@18.2.0
 
       - name: Show what is in the package.json
         run: |
