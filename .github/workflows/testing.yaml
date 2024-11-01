@@ -30,6 +30,11 @@ jobs:
           cd my-next-app
           ls -laR ./app
 
+      - name: Display what is in page.tsx
+        run: |
+          cd my-next-app
+          cat ./app/pages/index.tsx
+
       - name: Explicitly set React and React DOM versions to 18.2.0
         run: |
           cd my-next-app
