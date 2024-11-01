@@ -33,7 +33,7 @@ jobs:
       - name: Display what is in page.tsx
         run: |
           cd my-next-app
-          cat ./app/pages/index.tsx
+          cat ./app/page.tsx
 
       - name: Explicitly set React and React DOM versions to 18.2.0
         run: |
