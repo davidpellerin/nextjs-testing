@@ -44,6 +44,9 @@ jobs:
             collectCoverage: true,
             coverageDirectory: "coverage",
             coverageProvider: "v8",
+            transform: {
+              "^.+\\.(js|jsx)$": "babel-jest"
+            },
           };
           EOT
 
