@@ -29,6 +29,12 @@ jobs:
         run: |
           cat my-next-app/package.json
 
+      - name: Explicitly set react and react-dom versions to 18.2.0
+        run: |
+          cd my-next-app
+          npx json -I -f package.json -e 'this.dependencies["react"] = "18.2.0"'
+          npx json -I -f package.json -e 'this.dependencies["react-dom"] = "18.2.0"'
+
       - name: Install jest
         run: |
           cd my-next-app
