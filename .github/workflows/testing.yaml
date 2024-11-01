@@ -25,17 +25,17 @@ jobs:
         run: |
           npx create-next-app@latest my-next-app --use-npm --no-ts --no-eslint
 
-      - name: Explicitly set react and react-dom versions to 18.2.0
+      - name: Explicitly set React and React DOM versions to 18.2.0
         run: |
           cd my-next-app
           npm install react@18.2.0 react-dom@18.2.0
 
-      - name: Install jest
+      - name: Install Jest, Babel, and Testing Library dependencies
         run: |
           cd my-next-app
-          npm install --save-dev jest
+          npm install --save-dev jest babel-jest @testing-library/react @testing-library/jest-dom jest-environment-jsdom @babel/core @babel/preset-env @babel/preset-react
 
-      - name: Create a jest config file
+      - name: Create Jest and Babel configuration files
         run: |
           cd my-next-app
           cat <<EOT > jest.config.js
@@ -47,12 +47,13 @@ jobs:
           };
           EOT
 
-      - name: Install testing library and jest-environment-jsdom
-        run: |
-          cd my-next-app
-          npm install --save-dev @testing-library/react @testing-library/jest-dom jest-environment-jsdom
+          cat <<EOT > .babelrc
+          {
+            "presets": ["@babel/preset-env", "@babel/preset-react"]
+          }
+          EOT
 
-      - name: Set up test configuration and a component to test
+      - name: Set up test file
         run: |
           cd my-next-app
           mkdir -p __tests__
@@ -67,7 +68,7 @@ jobs:
           });
           EOT
 
-      - name: add npm run test command to package.json
+      - name: Add npm test script to package.json
         run: |
           cd my-next-app
           npx json -I -f package.json -e 'this.scripts.test="jest -ci"'
