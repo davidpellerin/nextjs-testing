@@ -45,6 +45,23 @@ jobs:
           cd my-next-app
           npm install --save next-auth@beta
 
+      - name: Create an auth.ts file
+        run: |
+          cd my-next-app
+          cat <<EOT > ./auth.ts
+          import NextAuth from 'next-auth';
+          import Google from "next-auth/providers/google"
+
+          export const { auth, handlers, signIn, signOut } = NextAuth({
+            providers: [GitHub, Google],
+          });
+          EOT
+
+      - name: List Project Files
+        run: |
+          cd my-next-app
+          ls -laR ./app
+
       - name: Display the package.json
         run: |
           cd my-next-app
