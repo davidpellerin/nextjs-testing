@@ -74,6 +74,7 @@ jobs:
           cd my-next-app
           mkdir -p __tests__
           cat <<EOT > __tests__/index.test.js
+          import '@testing-library/jest-dom';
           import React from 'react';
           import { render, screen } from '@testing-library/react';
           import Home from '../app/page';
