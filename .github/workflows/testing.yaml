@@ -38,7 +38,7 @@ jobs:
       - name: Install Jest, Babel, and Testing Library dependencies
         run: |
           cd my-next-app
-          npm install --save-dev jest babel-jest @testing-library/react @testing-library/jest-dom jest-environment-jsdom @babel/core @babel/preset-env @babel/preset-react
+          npm install --save-dev jest babel-jest @testing-library/react @testing-library/jest-dom jest-environment-jsdom @babel/core @babel/preset-env @babel/preset-react @babel/preset-typescript
 
       - name: Create Jest and Babel configuration files
         run: |
@@ -50,14 +50,15 @@ jobs:
             coverageDirectory: "coverage",
             coverageProvider: "v8",
             transform: {
-              "^.+\\.(js|jsx)$": "babel-jest"
+              "^.+\\.(js|jsx|ts|tsx)$": "babel-jest",
             },
+            moduleFileExtensions: ["js", "jsx", "ts", "tsx"],
           };
           EOT
 
           cat <<EOT > .babelrc
           {
-            "presets": ["@babel/preset-env", "@babel/preset-react"]
+            "presets": ["@babel/preset-env", "@babel/preset-react", "@babel/preset-typescript"]
           }
           EOT
 
