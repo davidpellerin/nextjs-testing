@@ -40,6 +40,16 @@ jobs:
           cd my-next-app
           npm install --save-dev jest babel-jest @testing-library/react @testing-library/jest-dom jest-environment-jsdom @babel/core @babel/preset-env @babel/preset-react @babel/preset-typescript
 
+      - name: Install Jest, Babel, and Testing Library dependencies
+        run: |
+          cd my-next-app
+          npm install --save next-auth@beta
+
+      - name: Display the package.json
+        run: |
+          cd my-next-app
+          cat package.json
+
       - name: Create Jest and Babel configuration files
         run: |
           cd my-next-app
