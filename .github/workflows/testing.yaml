@@ -67,6 +67,11 @@ jobs:
           });
           EOT
 
+      - name: add npm run test command to package.json
+        run: |
+          cd my-next-app
+          npx json -I -f package.json -e 'this.scripts.test="jest -ci"'
+
       - name: Run tests
         run: |
           cd my-next-app
