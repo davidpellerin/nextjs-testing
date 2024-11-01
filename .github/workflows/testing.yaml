@@ -47,10 +47,10 @@ jobs:
           };
           EOT
 
-      - name: Install testing library
+      - name: Install testing library and jest-environment-jsdom
         run: |
           cd my-next-app
-          npm install --save-dev @testing-library/react @testing-library/jest-dom
+          npm install --save-dev @testing-library/react @testing-library/jest-dom jest-environment-jsdom
 
       - name: Set up test configuration and a component to test
         run: |
