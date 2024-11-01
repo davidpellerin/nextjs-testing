@@ -25,6 +25,10 @@ jobs:
         run: |
           npx create-next-app@latest my-next-app --use-npm --no-ts --no-eslint
 
+      - name: Show what is in the package.json
+        run: |
+          cat my-next-app/package.json
+
       - name: Install testing libraries
         run: |
           cd my-next-app
