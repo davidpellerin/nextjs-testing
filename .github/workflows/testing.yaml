@@ -25,6 +25,11 @@ jobs:
         run: |
           npx create-next-app@latest my-next-app --use-npm --no-ts --no-eslint
 
+      - name: List Project Files
+        run: |
+          cd my-next-app
+          ls -laR
+
       - name: Explicitly set React and React DOM versions to 18.2.0
         run: |
           cd my-next-app
