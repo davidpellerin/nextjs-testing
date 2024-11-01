@@ -39,6 +39,10 @@ jobs:
         run: |
           cat my-next-app/package.json
 
+      - name: Show what is in the package-lock.json
+        run: |
+          cat my-next-app/package-lock.json
+
       - name: Install jest
         run: |
           cd my-next-app
