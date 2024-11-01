@@ -25,42 +25,34 @@ jobs:
         run: |
           npx create-next-app@latest my-next-app --use-npm --no-ts --no-eslint
 
-      - name: Show what is in the package.json
-        run: |
-          cat my-next-app/package.json
-
       - name: Explicitly set react and react-dom versions to 18.2.0
         run: |
           cd my-next-app
           npm install react@18.2.0 react-dom@18.2.0
-
-      - name: Show what is in the package.json
-        run: |
-          cat my-next-app/package.json
-
-      - name: Show what is in the package-lock.json
-        run: |
-          cat my-next-app/package-lock.json
 
       - name: Install jest
         run: |
           cd my-next-app
           npm install --save-dev jest
 
-      - name: Show what is in the package.json
+      - name: Create a jest config file
         run: |
-          cat my-next-app/package.json
+          cd my-next-app
+          cat <<EOT > jest.config.js
+          module.exports = {
+            testEnvironment: "jsdom",
+            collectCoverage: true,
+            coverageDirectory: "coverage",
+            coverageProvider: "v8",
+          };
+          EOT
 
       - name: Install testing library
         run: |
           cd my-next-app
           npm install --save-dev @testing-library/react @testing-library/jest-dom
 
-      - name: Show what is in the package.json
-        run: |
-          cat my-next-app/package.json
-
-      - name: Set up test configuration and add test file
+      - name: Set up test configuration and a component to test
         run: |
           cd my-next-app
           mkdir -p __tests__
@@ -74,7 +66,6 @@ jobs:
             expect(heading).toBeInTheDocument();
           });
           EOT
-          npx json -I -f package.json -e 'this.jest={"testEnvironment": "jsdom"}'
 
       - name: Run tests
         run: |
