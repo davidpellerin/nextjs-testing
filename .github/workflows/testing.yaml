@@ -1,0 +1,49 @@
+name: Next.js Setup and Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies and create Next.js app
+        run: |
+          npx create-next-app@latest my-next-app --use-npm --no-ts --no-eslint
+          cd my-next-app
+          npm install --save-dev jest @testing-library/react @testing-library/jest-dom
+
+      - name: Set up test configuration and add test file
+        run: |
+          cd my-next-app
+          mkdir -p __tests__
+          cat <<EOT > __tests__/index.test.js
+          import { render, screen } from '@testing-library/react';
+          import Home from '../pages/index';
+
+          test('renders homepage', () => {
+            render(<Home />);
+            const heading = screen.getByRole('heading', { name: /welcome to next\\.js!/i });
+            expect(heading).toBeInTheDocument();
+          });
+          EOT
+          npx json -I -f package.json -e 'this.jest={"testEnvironment": "jsdom"}'
+
+      - name: Run tests
+        run: |
+          cd my-next-app
+          npm run test
