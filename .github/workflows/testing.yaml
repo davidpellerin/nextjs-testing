@@ -60,7 +60,7 @@ jobs:
       - name: List Project Files
         run: |
           cd my-next-app
-          ls -laR ./app
+          ls -laR ./
 
       - name: Display the package.json
         run: |
