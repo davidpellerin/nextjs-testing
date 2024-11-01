@@ -23,7 +23,7 @@ jobs:
 
       - name: Install dependencies and create Next.js app
         run: |
-          npx create-next-app@latest my-next-app --use-npm --no-ts --no-eslint
+          npx create-next-app@latest my-next-app --use-npm --javascript --tailwind
 
       - name: Explicitly set React and React DOM versions to 18.2.0
         run: |
