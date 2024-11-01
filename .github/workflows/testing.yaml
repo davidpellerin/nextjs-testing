@@ -40,6 +40,33 @@ jobs:
           cd my-next-app
           npm install --save-dev jest babel-jest @testing-library/react @testing-library/jest-dom jest-environment-jsdom @babel/core @babel/preset-env @babel/preset-react @babel/preset-typescript
 
+      - name: Install next-auth beta
+        run: |
+          cd my-next-app
+          npm install --save next-auth@beta
+
+      - name: Create an auth.ts file
+        run: |
+          cd my-next-app
+          cat <<EOT > ./auth.ts
+          import NextAuth from 'next-auth';
+          import Google from "next-auth/providers/google"
+
+          export const { auth, handlers, signIn, signOut } = NextAuth({
+            providers: [GitHub, Google],
+          });
+          EOT
+
+      - name: List Project Files
+        run: |
+          cd my-next-app
+          ls -la ./
+
+      - name: Display the package.json
+        run: |
+          cd my-next-app
+          cat package.json
+
       - name: Create Jest and Babel configuration files
         run: |
           cd my-next-app
