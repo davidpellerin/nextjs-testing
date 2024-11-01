@@ -28,7 +28,7 @@ jobs:
       - name: List Project Files
         run: |
           cd my-next-app
-          ls -laR ./ ./app
+          ls -laR ./app
 
       - name: Explicitly set React and React DOM versions to 18.2.0
         run: |
