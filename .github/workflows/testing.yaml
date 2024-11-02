@@ -143,7 +143,19 @@ jobs:
           import { render, screen } from '@testing-library/react';
           import Footer from '../footer';
 
+          jest.mock('next-auth/react', () => ({
+            useSession: jest.fn(),
+            signIn: jest.fn(),
+            signOut: jest.fn(),
+          }));
+
           test('renders footer', () => {
+            useSession.mockReturnValue({
+              data: {
+                user: { name: 'Test User', email: 'test@example.com' },
+              },
+              status: 'authenticated',
+            });
             render(<Footer />);
             const homeText = screen.getByAltText('Home');
             expect(homeText).toBeInTheDocument();
