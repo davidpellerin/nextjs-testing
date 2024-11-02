@@ -152,7 +152,7 @@ jobs:
           import React from 'react';
           import { render, screen } from '@testing-library/react';
           import { useSession } from 'next-auth/react';
-          import Footer from '../components/footer';
+          import Footer from '../app/components/footer';
 
           jest.mock('next-auth/react', () => ({
             useSession: jest.fn(),
