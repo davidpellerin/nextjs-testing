@@ -141,6 +141,7 @@ jobs:
           import '@testing-library/jest-dom';
           import React from 'react';
           import { render, screen } from '@testing-library/react';
+          import { useSession } from 'next-auth/react';
           import Footer from '../footer';
 
           jest.mock('next-auth/react', () => ({
