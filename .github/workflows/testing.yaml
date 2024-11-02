@@ -60,8 +60,8 @@ jobs:
       - name: Create a footer.tsx component:
         run: |
           cd my-next-app
-          cat <<EOT > ./app/components/footer.tsx
-          "use client";
+          cat <<EOT > ./footer.tsx
+          'use client';
 
           import Link from 'next/link';
           import { useSession } from 'next-auth/react';
