@@ -57,7 +57,7 @@ jobs:
           });
           EOT
 
-      - name: Create a footer.tsx component:
+      - name: Create a footer.tsx component
         run: |
           cd my-next-app
           cat <<EOT > ./footer.tsx
