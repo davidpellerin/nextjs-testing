@@ -148,19 +148,33 @@ jobs:
             useSession: jest.fn(),
           }));
 
-          test('renders footer with authenticated session', () => {
-            useSession.mockReturnValue({
-              data: {
-                user: { name: 'Test User', email: 'test@example.com' },
-              },
-              status: 'authenticated',
+          describe('Footer', () => {
+            it('renders footer with a link to / when unauthenticated', () => {
+              useSession.mockReturnValue({
+                data: null,
+                status: 'unauthenticated',
+              });
+              render(<Footer />);
+              const homeLink = screen.getByRole('link', { name: 'Home' });
+              expect(homeLink).toBeInTheDocument();
+              expect(homeLink).toHaveAttribute('href', '/');
             });
-            render(<Footer />);
-            const homeText = screen.getByText('Home');
-            expect(homeText).toBeInTheDocument();
-          });
-          EOT
 
+            it('renders footer with a link to /members when authenticated', () => {
+              useSession.mockReturnValue({
+                data: {
+                  user: { name: 'Test User', email: 'test@example.com' },
+                },
+                status: 'authenticated',
+              });
+              render(<Footer />);
+              const membersLink = screen.getByRole('link', { name: 'Home' });
+              expect(membersLink).toBeInTheDocument();
+              expect(membersLink).toHaveAttribute('href', '/members');
+            });
+          });
+
+          EOT
 
       - name: Add npm test script to package.json
         run: |
