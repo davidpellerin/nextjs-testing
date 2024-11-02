@@ -40,15 +40,15 @@ jobs:
           cd my-next-app
           npm install --save-dev jest babel-jest @testing-library/react @testing-library/jest-dom jest-environment-jsdom @babel/core @babel/preset-env @babel/preset-react @babel/preset-typescript
 
-      - name: Install next-auth beta
+      - name: Install next-auth beta 25
         run: |
           cd my-next-app
-          npm install --save next-auth@beta
+          npm install --save next-auth@5.0.0-beta.25
 
       - name: Create an auth.ts file
         run: |
           cd my-next-app
-          cat <<EOT > ./auth.ts
+          mkdir -p app && cat <<EOT > ./app/auth.ts
           import NextAuth from 'next-auth';
           import Google from "next-auth/providers/google"
 
@@ -60,7 +60,7 @@ jobs:
       - name: Create a footer.tsx component
         run: |
           cd my-next-app
-          cat <<EOT > ./footer.tsx
+          mkdir -p app/components && cat <<EOT > ./app/components/footer.tsx
           'use client';
 
           import Link from 'next/link';
@@ -142,7 +142,7 @@ jobs:
           import React from 'react';
           import { render, screen } from '@testing-library/react';
           import { useSession } from 'next-auth/react';
-          import Footer from '../footer';
+          import Footer from '../components/footer';
 
           jest.mock('next-auth/react', () => ({
             useSession: jest.fn(),
