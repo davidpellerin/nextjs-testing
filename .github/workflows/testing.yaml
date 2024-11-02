@@ -111,7 +111,7 @@ jobs:
           }
           EOT
 
-      - name: Set up test file
+      - name: Set up home page test file
         run: |
           cd my-next-app
           mkdir -p __tests__
@@ -127,6 +127,24 @@ jobs:
             expect(logo).toBeInTheDocument();
           });
           EOT
+
+      - name: Set up footer component test file
+        run: |
+          cd my-next-app
+          mkdir -p __tests__
+          cat <<EOT > __tests__/footer.test.js
+          import '@testing-library/jest-dom';
+          import React from 'react';
+          import { render, screen } from '@testing-library/react';
+          import Footer from '../footer';
+
+          test('renders footer', () => {
+            render(<Footer />);
+            const logo = screen.getByAltText('Next.js logo');
+            expect(logo).toBeInTheDocument();
+          });
+          EOT
+
 
       - name: Add npm test script to package.json
         run: |
