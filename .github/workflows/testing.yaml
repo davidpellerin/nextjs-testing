@@ -82,6 +82,11 @@ jobs:
           cd my-next-app
           ls -la ./
 
+      - name: List Project Files in the app directory
+        run: |
+          cd my-next-app
+          ls -la ./app
+
       - name: Display the package.json
         run: |
           cd my-next-app
