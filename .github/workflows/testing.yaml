@@ -123,8 +123,8 @@ jobs:
 
           test('renders homepage', () => {
             render(<Home />);
-            const homeText = screen.getByAltText('Home');
-            expect(homeText).toBeInTheDocument();
+            const logo = screen.getByAltText('Next.js logo');
+            expect(logo).toBeInTheDocument();
           });
           EOT
 
@@ -140,8 +140,8 @@ jobs:
 
           test('renders footer', () => {
             render(<Footer />);
-            const logo = screen.getByAltText('Next.js logo');
-            expect(logo).toBeInTheDocument();
+            const homeText = screen.getByAltText('Home');
+            expect(homeText).toBeInTheDocument();
           });
           EOT
 
