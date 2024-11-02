@@ -158,7 +158,7 @@ jobs:
               status: 'authenticated',
             });
             render(<Footer />);
-            const homeText = screen.getByAltText('Home');
+            const homeText = screen.getByText('Home');
             expect(homeText).toBeInTheDocument();
           });
           EOT
