@@ -123,8 +123,8 @@ jobs:
 
           test('renders homepage', () => {
             render(<Home />);
-            const logo = screen.getByAltText('Next.js logo');
-            expect(logo).toBeInTheDocument();
+            const homeText = screen.getByAltText('Home');
+            expect(homeText).toBeInTheDocument();
           });
           EOT
 
