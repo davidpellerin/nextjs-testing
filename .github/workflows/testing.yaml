@@ -149,7 +149,7 @@ jobs:
             signOut: jest.fn(),
           }));
 
-          test('renders footer', () => {
+          test('renders footer with authenticated session', () => {
             useSession.mockReturnValue({
               data: {
                 user: { name: 'Test User', email: 'test@example.com' },
