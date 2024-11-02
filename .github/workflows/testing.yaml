@@ -40,6 +40,63 @@ jobs:
           cd my-next-app
           npm install --save-dev jest babel-jest @testing-library/react @testing-library/jest-dom jest-environment-jsdom @babel/core @babel/preset-env @babel/preset-react @babel/preset-typescript
 
+      - name: Install next-auth beta 25
+        run: |
+          cd my-next-app
+          npm install --save next-auth@5.0.0-beta.25
+
+      - name: Create an auth.ts file
+        run: |
+          cd my-next-app
+          mkdir -p app && cat <<EOT > ./app/auth.ts
+          import NextAuth from 'next-auth';
+          import Google from "next-auth/providers/google"
+
+          export const { auth, handlers, signIn, signOut } = NextAuth({
+            providers: [Google],
+          });
+          EOT
+
+      - name: Create a footer.tsx component
+        run: |
+          cd my-next-app
+          mkdir -p app/components && cat <<EOT > ./app/components/footer.tsx
+          'use client';
+
+          import Link from 'next/link';
+          import { useSession } from 'next-auth/react';
+
+          const Footer = () => {
+            const { data: session } = useSession();
+            return (
+              <footer>
+                <Link href={session ? "/members" : "/"}>Home</Link>
+              </footer>
+            );
+          };
+          export default Footer;
+          EOT
+
+      - name: List Project Files
+        run: |
+          cd my-next-app
+          ls -la ./
+
+      - name: List Project Files in the app directory
+        run: |
+          cd my-next-app
+          ls -la ./app
+
+      - name: List Project Files in the app/components directory
+        run: |
+          cd my-next-app
+          ls -la ./app/components
+
+      - name: Display the package.json
+        run: |
+          cd my-next-app
+          cat package.json
+
       - name: Create Jest and Babel configuration files
         run: |
           cd my-next-app
@@ -50,21 +107,26 @@ jobs:
             coverageDirectory: "coverage",
             coverageProvider: "v8",
             transform: {
-              "^.+\\.(js|jsx|ts|tsx)$": "babel-jest",
+              "^.+\\.(js|jsx|ts|tsx)$": "babel-jest"
             },
             moduleFileExtensions: ["js", "jsx", "ts", "tsx"],
+            transformIgnorePatterns: [
+              "/node_modules/(?!next-auth/)"
+            ]
           };
           EOT
 
           cat <<EOT > .babelrc
           {
-            "presets": ["@babel/preset-env",
-            ["@babel/preset-react", { "runtime": "automatic" }],
-            "@babel/preset-typescript"]
+            "presets": [
+              "@babel/preset-env",
+              ["@babel/preset-react", { "runtime": "automatic" }],
+              "@babel/preset-typescript"
+            ]
           }
           EOT
 
-      - name: Set up test file
+      - name: Set up home page test file
         run: |
           cd my-next-app
           mkdir -p __tests__
@@ -79,6 +141,49 @@ jobs:
             const logo = screen.getByAltText('Next.js logo');
             expect(logo).toBeInTheDocument();
           });
+          EOT
+
+      - name: Set up footer component test file
+        run: |
+          cd my-next-app
+          mkdir -p __tests__
+          cat <<EOT > __tests__/footer.test.js
+          import '@testing-library/jest-dom';
+          import React from 'react';
+          import { render, screen } from '@testing-library/react';
+          import { useSession } from 'next-auth/react';
+          import Footer from '../app/components/footer';
+
+          jest.mock('next-auth/react', () => ({
+            useSession: jest.fn(),
+          }));
+
+          describe('Footer', () => {
+            it('renders footer with a link to / when unauthenticated', () => {
+              useSession.mockReturnValue({
+                data: null,
+                status: 'unauthenticated',
+              });
+              render(<Footer />);
+              const homeLink = screen.getByRole('link', { name: 'Home' });
+              expect(homeLink).toBeInTheDocument();
+              expect(homeLink).toHaveAttribute('href', '/');
+            });
+
+            it('renders footer with a link to /members when authenticated', () => {
+              useSession.mockReturnValue({
+                data: {
+                  user: { name: 'Test User', email: 'test@example.com' },
+                },
+                status: 'authenticated',
+              });
+              render(<Footer />);
+              const membersLink = screen.getByRole('link', { name: 'Home' });
+              expect(membersLink).toBeInTheDocument();
+              expect(membersLink).toHaveAttribute('href', '/members');
+            });
+          });
+
           EOT
 
       - name: Add npm test script to package.json
