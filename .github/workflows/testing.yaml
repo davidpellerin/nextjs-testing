@@ -53,8 +53,36 @@ jobs:
           import Google from "next-auth/providers/google"
 
           export const { auth, handlers, signIn, signOut } = NextAuth({
-            providers: [GitHub, Google],
+            providers: [Google],
           });
+          EOT
+
+      - name: Create a footer.tsx component:
+        run: |
+          cd my-next-app
+          cat <<EOT > ./app/components/footer.tsx
+          "use client";
+
+          import Link from 'next/link';
+          import { useSession } from 'next-auth/react';
+
+          const Footer = () => {
+            const { data: session } = useSession();
+            return (
+              <footer className="bg-gray-800">
+                <div className="container mx-auto px-6 py-4">
+                  <div className="flex justify-center">
+                    <Link href="https://github.com/nextauthjs/next-auth">
+                      <a className="text-gray-400 hover:text-gray-300">
+                        Powered by NextAuth
+                      </a>
+                    </Link>
+                  </div>
+                </div>
+              </footer>
+            );
+          };
+          export default Footer;
           EOT
 
       - name: List Project Files
