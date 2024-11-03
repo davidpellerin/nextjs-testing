@@ -97,7 +97,7 @@ jobs:
           cd my-next-app
           cat package.json
 
-      - name: Create Jest configuration file
+      - name: Create Jest and Babel configuration files
         run: |
           cd my-next-app
           cat <<EOT > jest.config.js
@@ -114,6 +114,16 @@ jobs:
               "/node_modules/(?!next-auth/)"
             ]
           };
+          EOT
+
+          cat <<EOT > .babelrc
+          {
+            "presets": [
+              "@babel/preset-env",
+              ["@babel/preset-react", { "runtime": "automatic" }],
+              "@babel/preset-typescript"
+            ]
+          }
           EOT
 
       - name: Set up home page test file
